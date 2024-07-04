@@ -1,9 +1,9 @@
 #'Sampling from exact distribution of DerSimonian-Laird between-study variance estimator
 #'
-#'@param n number of sampling
-#'@param K number of studies
-#'@param tau2 between-study variance parameter
-#'@param sig2k within-study variance in each study
+#'@param n number of observations.
+#'@param K number of studies.
+#'@param tau2 value of between-study variance parameter. vector is available.
+#'@param sig2k vector of within-study variance in each study.
 #'
 #'@return sampling values from exact distribution of DerSimonian-Laird between-study variance estimator
 #'
@@ -31,7 +31,7 @@ rand_tau2dl_tau2 <- function(n, K, tau2, sig2k){
     lambda <- eigen(U)$value
     Q_chis <- c(lambda %*% chi_sim)
 
-    x_ftau20[i.b,] <- (Q_chis - (K-1)) / (s1-s2/s1) # f(tau2hat|tau2b)からのサンプル, 0以下の補正なし
+    x_ftau20[i.b,] <- (Q_chis - (K-1)) / (s1-s2/s1)
   }
   x_ftau2 <- x_ftau20
   x_ftau2[x_ftau2<0] <- 0

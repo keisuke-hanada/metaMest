@@ -13,15 +13,6 @@
 #'
 #'@export
 ptheta_with_M_estimator <- function(qval, yi, vi, theta=0, tau2, tau2b=c(0.001,1:300/10), n.tau2=10000, method="DL"){
-  rho <- function(u, func=1){
-    if(func==1){
-      return(abs(u))
-    }else if(func==2){
-      return(u^2)
-    }else{
-      return(u)
-    }
-  }
   estfun <- function(tau2b, x, func=1){
     n.tau2b <- length(tau2b)
     R <- array(10000, dim=n.tau2b)
@@ -36,10 +27,33 @@ ptheta_with_M_estimator <- function(qval, yi, vi, theta=0, tau2, tau2b=c(0.001,1
   }
   K <- length(vi)
   if(method=="DL"){
-    x <- rand_tau2dl_tau2(n=n.tau2, K=K, tau2=tau2b, sig2k=vi)
-    R <- estfun(tau2b, x, func=1)
-    tau2m <- tau2b[which.min(abs(R-tau2))]
-    x.m <- x[,which.min(abs(R-tau2))]
+    DLestfun <- function(tau2dl, K, vi, n.tau2hat=10000, func=1, tmin=0, tmax=10000){
+      R <- function(tau2){
+        rval <- optimize(f=function(val, n.tau2hat, K, vi, func=func){
+          x <- rand_tau2dl_tau2(n=n.tau2hat, K=K, tau2=tau2, sig2k=vi)
+          return( mean(rho(x - val)) )
+        }, n.tau2hat=n.tau2hat, K=K, vi=vi, func=func, interval=c(tmin,tmax))$minimum
+        return(rval)
+      }
+      if(tau2dl - R(tmin)<=0){
+        return(tmin)
+      }else{
+        return(
+          uniroot(f=function(tau2, tau2dl){
+            return(tau2dl - R(tau2))
+          }, tau2dl=tau2dl, interval=c(tmin, tmax))$root
+
+        )
+      }
+    }
+
+    wk <- 1/vi
+    thetabar0 <- sum(yi*wk)/sum(wk)
+    Q <- sum(wk*(yi-thetabar0)^2)
+    tau2u <- (Q-(K-1))/(sum(wk)-sum(wk^2)/sum(wk))
+    tau2dl <- max(0, tau2u)
+    tau2m <- DLestfun(tau2dl=tau2dl, K=K, vi=vi, n.tau2hat=n.tau2)
+    x.m <- rand_tau2dl_tau2(n=n.tau2, K=K, tau2=tau2m, sig2k=vi)
     v2 <- numeric(n.tau2)
     for(k in 1:K){
       v2 <- v2 + 1/(vi[k]+x.m)

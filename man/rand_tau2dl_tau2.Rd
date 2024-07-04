@@ -7,13 +7,13 @@
 rand_tau2dl_tau2(n, K, tau2, sig2k)
 }
 \arguments{
-\item{n}{number of sampling}
+\item{n}{number of observations.}
 
-\item{K}{number of studies}
+\item{K}{number of studies.}
 
-\item{tau2}{between-study variance parameter}
+\item{tau2}{value of between-study variance parameter. vector is available.}
 
-\item{sig2k}{within-study variance in each study}
+\item{sig2k}{vector of within-study variance in each study.}
 }
 \value{
 sampling values from exact distribution of DerSimonian-Laird between-study variance estimator
