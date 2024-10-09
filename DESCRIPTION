@@ -1,7 +1,7 @@
 Package: metaMest
 Type: Package
 Title: Random-Effect Meta-Analysis with Robust Between-Study Variance via M-estimator
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Keisuke", "Hanada", , "keisuke.hanada.87@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-1444-0280"))
@@ -11,9 +11,10 @@ License: GPL (>= 3)
 Depends: 
     R (>= 3.4.0)
 Imports:
-    stats
+    stats,
+    ggplot2
 Biarch: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
