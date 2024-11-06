@@ -4,7 +4,7 @@
 \alias{rsim_th_tau2}
 \title{Simultaneous distribution of overall treatment effect and between-study variance}
 \usage{
-rsim_th_tau2(n, theta = 0, tau2, K, vi, method = "DL")
+rsim_th_tau2(n, theta = 0, tau2, K, vi, method = "DL", obj = "Estimate")
 }
 \arguments{
 \item{n}{number of random variables.}
@@ -18,6 +18,8 @@ rsim_th_tau2(n, theta = 0, tau2, K, vi, method = "DL")
 \item{vi}{vector of length K with the corresponding sample variances.}
 
 \item{method}{character string to specify the estimating method of between-study variance. By default (method="DL"), DerSimonian-Laird estimator is obtained. When method="SJ", Sidik-Jonkman estimator is obtained.}
+
+\item{obj}{character string to specify the objective. "Estimate", which set to default, is overall treatment effect. "Predict" is predictive treatment effect.}
 }
 \value{
 value of simultaneous distribution of overall treatment effect and between-study variance.

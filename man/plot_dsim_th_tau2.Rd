@@ -15,7 +15,8 @@ plot_dsim_th_tau2(
   tau2.limit = c(0, 10),
   length.out = 1000,
   n = 1e+05,
-  method = "DL"
+  method = "DL",
+  obj = "Estimate"
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ plot_dsim_th_tau2(
 \item{n}{number of sampling for calculating the thresholds. The default is 100000.}
 
 \item{method}{character string to specify the estimating method of between-study variance. By default (method="DL"), DerSimonian-Laird estimator is obtained. When method="SJ", Sidik-Jonkman estimator is obtained.}
+
+\item{obj}{character string to specify the objective. "Estimate", which set to default, is overall treatment effect. "Predict" is predictive treatment effect.}
 }
 \value{
 contour plot of simultaneous distribution of overall treatment effect and between-study variance.

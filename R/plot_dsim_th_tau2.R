@@ -11,6 +11,7 @@
 #'@param length.out x-axis and y-axis step widths
 #'@param n number of sampling for calculating the thresholds. The default is 100000.
 #'@param method character string to specify the estimating method of between-study variance. By default (method="DL"), DerSimonian-Laird estimator is obtained. When method="SJ", Sidik-Jonkman estimator is obtained.
+#'@param obj character string to specify the objective. "Estimate", which set to default, is overall treatment effect. "Predict" is predictive treatment effect.
 #'
 #'@return contour plot of simultaneous distribution of overall treatment effect and between-study variance.
 #'
@@ -19,16 +20,16 @@
 plot_dsim_th_tau2 <- function(contour_val=c(0.01, 0.05, 0.2, 0.4, 0.6, 0.8),
                               theta=0, tau2, K, vi, alpha=0.05,
                               theta.limit=c(-10,10), tau2.limit=c(0,10), length.out=1000,
-                              n=100000, method="DL"){
+                              n=100000, method="DL", obj="Estimate"){
   yval <- seq(theta.limit[1], theta.limit[2], length.out = length.out)
   xval <- seq(tau2.limit[1], tau2.limit[2], length.out = length.out)
-  zval <- outer(X=yval, Y=xval, dsim_th_tau2, theta=theta, tau2=tau2, K=K, vi=vi, method=method)
+  zval <- outer(X=yval, Y=xval, dsim_th_tau2, theta=theta, tau2=tau2, K=K, vi=vi, method=method, obj=obj)
   df <- expand.grid(x = yval, y = xval)
   df$z <- as.vector(zval)
 
   # threshold
-  xyrand <- rsim_th_tau2(n=n, theta=theta, tau2=tau2, K=K, vi=vi, method=method)
-  dxys <- dsim_th_tau2(y=xyrand$theta, x=xyrand$tau2, theta=theta, tau2=tau2, K=K, vi=vi, method=method)
+  xyrand <- rsim_th_tau2(n=n, theta=theta, tau2=tau2, K=K, vi=vi, method=method, obj=obj)
+  dxys <- dsim_th_tau2(y=xyrand$theta, x=xyrand$tau2, theta=theta, tau2=tau2, K=K, vi=vi, method=method, obj=obj)
   z_threshold <- quantile(dxys, probs = alpha)
   z_contour <- quantile(dxys, probs = contour_val)
   z_threshold <- quantile(dxys, probs = alpha)

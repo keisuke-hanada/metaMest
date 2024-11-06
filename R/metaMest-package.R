@@ -14,6 +14,9 @@
 #' @export dsim_th_tau2
 #' @export rsim_th_tau2
 #' @export plot_dsim_th_tau2
+#' @export est_tau2m
+#' @export rma.Muni
+#' @export rma.Muni.m1
 #'
 #' @references
 #' Hanada, K., & Sugimoto, T. (2024). Random-Effect Meta-Analysis with Robust Between-Study Variance. Pre-print.
