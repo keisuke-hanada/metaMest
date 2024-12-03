@@ -61,7 +61,6 @@ cildl_hksj <- dl$b + qt(alpha/2, df=K-1) * sqrt(v2_hksj)
 ciudl_hksj <- dl$b + qt(1-alpha/2, df=K-1) * sqrt(v2_hksj)
 ci_hksj_dl <- c(cildl_hksj, ciudl_hksj)
 
-
 # HKSJ-SJ
 wk_tau2sj <- sapply(1:K, function(k){1/(sig2k[k]+sj$tau2)})
 v2_hksj <- sum(wk_tau2dl*(yk-as.numeric(sj$b))^2) / ((K-1)*sum(wk_tau2sj))
@@ -69,13 +68,18 @@ cilsj_hksj <- sj$b + qt(alpha/2, df=K-1) * sqrt(v2_hksj)
 ciusj_hksj <- sj$b + qt(1-alpha/2, df=K-1) * sqrt(v2_hksj)
 ci_hksj_sj <- c(cilsj_hksj, ciusj_hksj)
 
+
 ```
 
 ### Proposed methods
 
 ```
 # DL with M-estimator2
+
 mdl <- rma.Muni(yi=yk, vi=sig2k, method="DL", contour_val=c(0.05, 0.2, 0.4, 0.8))
+## Case of graph in paper
+# mdl <- rma.Muni(yi=yk, vi=sig2k, method="DL", contour_val=c(0.05, 0.1, 0.2, 0.3, 0.5), n.rand=30000, n.grid=500)
+
 c(mdl$ci.lb, mdl$ci.ub)
 mdl$plot
 
